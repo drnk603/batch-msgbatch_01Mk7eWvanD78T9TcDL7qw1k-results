@@ -15,9 +15,9 @@
     };
 
     const VALIDATORS = {
-        email: /^[^s@]+@[^s@]+.[^s@]+$/,
-        phone: /^[+-d()s]{10,20}$/,
-        name: /^[a-zA-ZÀ-ÿs-']{2,50}$/,
+        email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        phone: /^[+\-\d()\s]{10,20}$/,
+        name: /^[a-zA-ZÀ-ÿ\s\-']{2,50}$/,
         message: /^.{10,}$/
     };
 
@@ -131,7 +131,6 @@
             this.toggler.classList.add('active');
             this.toggler.setAttribute('aria-expanded', 'true');
             this.body.style.overflow = 'hidden';
-            
             this.collapse.style.height = `calc(100vh - ${getComputedStyle(document.documentElement).getPropertyValue('--nav-h')})`;
         }
 
@@ -149,9 +148,7 @@
         constructor() {
             this.sections = document.querySelectorAll('section[id]');
             this.navLinks = document.querySelectorAll('.nav-link[href^="#"]');
-            
             if (this.sections.length === 0) return;
-            
             this.init();
         }
 
@@ -177,7 +174,6 @@
             this.navLinks.forEach(link => {
                 link.classList.remove('active');
                 link.removeAttribute('aria-current');
-                
                 if (link.getAttribute('href') === `#${id}`) {
                     link.classList.add('active');
                     link.setAttribute('aria-current', 'page');
@@ -239,13 +235,11 @@
                     if (entry.isIntersecting) {
                         entry.target.style.opacity = '0';
                         entry.target.style.transform = 'translateY(30px)';
-                        
                         requestAnimationFrame(() => {
                             entry.target.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
                             entry.target.style.opacity = '1';
                             entry.target.style.transform = 'translateY(0)';
                         });
-
                         this.observer.unobserve(entry.target);
                     }
                 });
@@ -272,7 +266,6 @@
 
         initButtonRipple() {
             const buttons = document.querySelectorAll('.c-button, .btn');
-            
             buttons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     const ripple = document.createElement('span');
@@ -328,7 +321,6 @@
 
         initCardHover() {
             const cards = document.querySelectorAll('.c-card');
-            
             cards.forEach(card => {
                 card.addEventListener('mouseenter', () => {
                     card.style.transition = 'transform 0.3s ease-out, box-shadow 0.3s ease-out';
@@ -343,7 +335,6 @@
 
         initLinkHover() {
             const links = document.querySelectorAll('a:not(.c-button):not(.btn)');
-            
             links.forEach(link => {
                 if (!link.closest('.navbar-nav')) {
                     link.style.transition = 'color 0.3s ease-out';
@@ -407,7 +398,6 @@
             this.forms.forEach(form => {
                 form.setAttribute('novalidate', 'true');
                 form.addEventListener('submit', (e) => this.handleSubmit(e));
-                
                 const inputs = form.querySelectorAll('input, textarea, select');
                 inputs.forEach(input => {
                     input.addEventListener('blur', () => this.validateField(input));
@@ -418,7 +408,6 @@
 
         handleSubmit(e) {
             e.preventDefault();
-            
             const form = e.target;
             const submitButton = form.querySelector('button[type="submit"]');
             let isValid = true;
@@ -438,7 +427,6 @@
                 submitButton.disabled = true;
                 const originalText = submitButton.textContent;
                 submitButton.innerHTML = `<span style="display: inline-block; width: 14px; height: 14px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 8px;"></span>${MESSAGES.sending}`;
-                
                 this.addSpinnerStyles();
 
                 setTimeout(() => {
@@ -501,7 +489,6 @@
         showError(field, message) {
             field.classList.add('is-invalid');
             field.setAttribute('aria-invalid', 'true');
-            
             let errorDiv = field.parentElement.querySelector('.form-error');
             if (!errorDiv) {
                 errorDiv = document.createElement('div');
@@ -515,7 +502,6 @@
         clearError(field) {
             field.classList.remove('is-invalid');
             field.removeAttribute('aria-invalid');
-            
             const errorDiv = field.parentElement.querySelector('.form-error');
             if (errorDiv) {
                 errorDiv.remove();
@@ -525,7 +511,6 @@
         clearAllErrors(form) {
             const errorDivs = form.querySelectorAll('.form-error');
             errorDivs.forEach(div => div.remove());
-            
             const invalidFields = form.querySelectorAll('.is-invalid');
             invalidFields.forEach(field => {
                 field.classList.remove('is-invalid');
@@ -538,9 +523,7 @@
             notification.className = `notification notification-${type}`;
             notification.textContent = message;
             notification.setAttribute('role', 'alert');
-            
             document.body.appendChild(notification);
-
             this.addNotificationStyles();
 
             requestAnimationFrame(() => {
@@ -616,7 +599,6 @@
             this.button.setAttribute('aria-label', 'Scroll to top');
             this.button.style.display = 'none';
             document.body.appendChild(this.button);
-
             this.addStyles();
         }
 
@@ -711,7 +693,6 @@
 
         init() {
             const privacyLinks = document.querySelectorAll('a[href*="privacy"], a[href*="policy"]');
-            
             privacyLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     if (link.getAttribute('href') === '#privacy' || link.getAttribute('href') === '#policy') {
@@ -738,7 +719,6 @@
 
             document.body.appendChild(modal);
             document.body.style.overflow = 'hidden';
-
             this.addModalStyles();
 
             requestAnimationFrame(() => {
@@ -766,7 +746,6 @@
             modal.style.opacity = '0';
             modal.querySelector('.privacy-modal-content').style.transform = 'scale(0.9)';
             document.body.style.overflow = '';
-            
             setTimeout(() => modal.remove(), 300);
         }
 
